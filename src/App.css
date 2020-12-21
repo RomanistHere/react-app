@@ -1,3 +1,7 @@
+.grid {
+    font-size: 18px;
+}
+
 .grid__left {
     display: inline-block;
 
@@ -7,6 +11,99 @@
 
 .grid__row {
     width: 700px;
-    border-bottom: 1px solid #000;
-    border-right: 1px solid #000;
+    border-bottom: 1px solid var(--bord-col);
+    border-right: 1px solid var(--bord-col);
+
+    background-color: var(--light-col);
+}
+
+.login {
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    border: 6px solid var(--bord-col);
+    padding: 10px;
+    border-radius: 30px;
+
+    font-size: 24px;
+    text-align: center;
+
+    background-color: var(--light-col);
+    color: var(--dark-col);
+}
+
+.login__label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.login__input {
+    width: 100%;
+    padding: 5px 10px;
+    border-radius: 5px;
+
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.login__btn {
+    padding: 5px 30px;
+    margin-top: 30px;
+    border-radius: 5px;
+
+    background-color: var(--dark-col);
+    border-color: var(--bord-col);
+
+    font-size: 20px;
+    color: var(--light-col);
+
+    -webkit-transition: all ease .3s;
+    -o-transition: all ease .3s;
+    transition: all ease .3s;
+}
+
+.login__btn:hover {
+    background-color: var(--bord-col);
+    cursor: pointer;
+}
+
+.login__err {
+    display: block;
+
+    margin-top: 5px;
+
+    font-size: 15px;
+    -webkit-animation: appear 1s ease;
+    animation: appear 1s ease;
+}
+
+@-webkit-keyframes appear {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@-o-keyframes appear {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@-moz-keyframes appear {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes appear {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.input-group {
+    margin: 20px 0;
 }

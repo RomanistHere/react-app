@@ -10,7 +10,7 @@ const App = () => {
     return (
         <div className="App">
             {/* <header className="App-header">
-
+                Server explorer app
             </header> */}
             <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
                 <Routes />

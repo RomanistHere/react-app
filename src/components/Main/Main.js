@@ -1,40 +1,51 @@
 import React, { useState, useEffect } from "react";
 import { useAppContext } from "../../libs/contextLib";
+import { useHistory } from "react-router-dom";
 
 export default function Main() {
     const defRevState = {
         name: false,
         distance: false
     };
+    const history = useHistory();
     const { isAuthenticated } = useAppContext();
     const [servers, setServers] = useState([]);
     const [stateRev, setStateRev] = useState(defRevState);
+    const [tokenFromStorage, setToken] = useState(typeof window !== 'undefined' ?
+		(JSON.parse(localStorage.getItem('token')) == null ? false : JSON.parse(localStorage.getItem('token'))) : false)
 
     useEffect(() => {
         fetchInfo();
     }, [isAuthenticated]);
 
     const fetchInfo = async () => {
-        console.log('fetchInfo')
-        console.log(isAuthenticated)
+        const token = tokenFromStorage ? tokenFromStorage :
+            isAuthenticated ? isAuthenticated : null
 
-        const myHeaders = new Headers({
-            'Authorization': isAuthenticated,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        });
+        if (!token) {
+            history.push("/");
+        }
 
-        const resp = await fetch('https://playground.tesonet.lt/v1/servers', {
-            method: 'GET',
-            headers: myHeaders
-        });
-        const content = await resp.json();
-        setServers(content);
+        try {
+            const myHeaders = new Headers({
+                'Authorization': token,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            });
 
-        console.log(content);
+            const resp = await fetch('https://playground.tesonet.lt/v1/servers', {
+                method: 'GET',
+                headers: myHeaders
+            });
+
+            const content = await resp.json();
+            setServers(content);
+        } catch (e) {
+            history.push("/");
+        }
     }
 
-    const sortOn = (property) => {
+    const sortBy = (property) => {
         return function(a, b){
             if (a[property] < b[property]) {
                 return -1;
@@ -49,7 +60,7 @@ export default function Main() {
     const sort = (e) => {
         e.preventDefault();
         const { id } = e.currentTarget;
-        const sorted = stateRev[id] ? servers.sort(sortOn(id)).reverse() : servers.sort(sortOn(id));
+        const sorted = stateRev[id] ? servers.sort(sortBy(id)).reverse() : servers.sort(sortBy(id));
         setServers([...sorted]);
         setStateRev(prevState => ({
             ...defRevState,
